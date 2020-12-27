@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get WebCatalog Engine version
-      run: echo WEBCATALOG_ENGINE_VERSION::$(cat webcatalog-engine-version $1) >> $GITHUB_ENV
+      run: echo WEBCATALOG_ENGINE_VERSION=$(cat webcatalog-engine-version $1) >> $GITHUB_ENV
     - uses: actions/checkout@v2
       with:
         repository: 'webcatalog/webcatalog-engine'
