@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 
 const { Arch, Platform } = builder;
 
-const BUILD_RESOURCES_DIR_NAME = 'build-resources-singlebox';
+const BUILD_RESOURCES_DIR_NAME = 'build-resources-mas';
 
 console.log(`Machine: ${process.platform}`);
 
@@ -22,7 +22,7 @@ switch (process.platform) {
   }
 }
 
-const filesToBeReplaced = fs.readdirSync(path.join(__dirname, 'build-resources-singlebox', 'build'));
+const filesToBeReplaced = fs.readdirSync(path.join(__dirname, 'build-resources-mas', 'build'));
 
 const packageJsonPath = path.join(__dirname, 'package.json');
 const packageJsonContent = fs.readJSONSync(packageJsonPath);
