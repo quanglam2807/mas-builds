@@ -91,13 +91,21 @@ const opts = {
       const resourcesDirPath = context.electronPlatformName === 'darwin'
         ? path.join(context.appOutDir, 'Singlebox.app', 'Contents', 'Resources')
         : path.join(context.appOutDir, 'resources');
-      const asarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked');
+      const x64AsarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked-x64');
+      const arm64AsarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked-arm64');
       return Promise.resolve()
         .then(() => {
-          const p = filesToBeReplaced.map((fileName) => fs.copyFile(
-            path.join(buildResourcesPath, 'build', fileName),
-            path.join(asarUnpackedDirPath, 'build', fileName),
-          ));
+          const p = [];
+          filesToBeReplaced.forEach((fileName) => {
+            p.push(fs.copyFile(
+              path.join(buildResourcesPath, 'build', fileName),
+              path.join(x64AsarUnpackedDirPath, 'build', fileName),
+            ));
+            p.push(fs.copyFile(
+              path.join(buildResourcesPath, 'build', fileName),
+              path.join(arm64AsarUnpackedDirPath, 'build', fileName),
+            ));
+          });
           return Promise.all(p);
         })
         .then(() => {
