@@ -91,8 +91,8 @@ const opts = {
       const resourcesDirPath = context.electronPlatformName === 'darwin'
         ? path.join(context.appOutDir, 'Singlebox.app', 'Contents', 'Resources')
         : path.join(context.appOutDir, 'resources');
-      const x64AsarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked-x64');
-      const arm64AsarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked-arm64');
+      const x64AsarUnpackedDirPath = path.join(resourcesDirPath, 'app-x64.asar.unpacked');
+      const arm64AsarUnpackedDirPath = path.join(resourcesDirPath, 'app-arm64.asar.unpacked');
       return Promise.resolve()
         .then(() => {
           const p = [];
