@@ -88,22 +88,15 @@ const opts = {
     afterPack: (context) => {
       console.log('Running afterPack hook....');
       const buildResourcesPath = path.join(__dirname, BUILD_RESOURCES_DIR_NAME);
-      const resourcesDirPath = context.electronPlatformName === 'darwin'
-        ? path.join(context.appOutDir, 'Singlebox.app', 'Contents', 'Resources')
-        : path.join(context.appOutDir, 'resources');
-      const x64AsarUnpackedDirPath = path.join(resourcesDirPath, 'app-x64.asar.unpacked');
-      const arm64AsarUnpackedDirPath = path.join(resourcesDirPath, 'app-arm64.asar.unpacked');
+      const resourcesDirPath = path.join(context.appOutDir, 'Singlebox.app', 'Contents', 'Resources');
+      const asarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked');
       return Promise.resolve()
         .then(() => {
           const p = [];
           filesToBeReplaced.forEach((fileName) => {
             p.push(fs.copyFile(
               path.join(buildResourcesPath, 'build', fileName),
-              path.join(x64AsarUnpackedDirPath, 'build', fileName),
-            ));
-            p.push(fs.copyFile(
-              path.join(buildResourcesPath, 'build', fileName),
-              path.join(arm64AsarUnpackedDirPath, 'build', fileName),
+              path.join(asarUnpackedDirPath, 'build', fileName),
             ));
           });
           return Promise.all(p);
