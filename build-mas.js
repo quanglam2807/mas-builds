@@ -15,8 +15,7 @@ switch (process.platform) {
     targets = Platform.MAC.createTarget(['mas'], Arch.universal);
     break;
   }
-  default:
-  case 'linux': {
+  default: {
     console.log('Platform is not supported');
     process.exit(1);
   }
