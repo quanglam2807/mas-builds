@@ -72,17 +72,11 @@ const opts = {
     directories: {
       buildResources: BUILD_RESOURCES_DIR_NAME,
     },
-    mac: {
+    mas: {
       category: 'public.app-category.productivity',
-      hardenedRuntime: true,
-      gatekeeperAssess: false,
-      darkModeSupport: true,
       entitlements: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
       entitlementsInherit: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
       entitlementsLoginHelper: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.login-helper.plist'),
-    },
-    mas: {
-      category: 'public.app-category.productivity',
       provisioningProfile: path.join(BUILD_RESOURCES_DIR_NAME, 'embedded.provisionprofile'),
     },
     afterPack: (context) => {
