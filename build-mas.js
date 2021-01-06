@@ -83,7 +83,7 @@ const opts = {
     },
     mas: {
       category: 'public.app-category.productivity',
-      provisioningProfile: 'build-resources/embedded.provisionprofile',
+      provisioningProfile: path.join(BUILD_RESOURCES_DIR_NAME, 'embedded.provisionprofile'),
     },
     afterPack: (context) => {
       console.log('Running afterPack hook....');
