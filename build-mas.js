@@ -78,6 +78,11 @@ const opts = {
       entitlementsInherit: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
       entitlementsLoginHelper: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.login-helper.plist'),
       provisioningProfile: path.join(BUILD_RESOURCES_DIR_NAME, 'embedded.provisionprofile'),
+      // https://github.com/electron/electron/issues/15958#issuecomment-447685065
+      // alternative solution for app.requestSingleInstanceLock in signed mas builds (Mac App Store)
+      extendInfo: {
+        LSMultipleInstancesProhibited: true,
+      },
     },
     afterPack: (context) => {
       console.log('Running afterPack hook....');
