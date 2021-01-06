@@ -77,8 +77,8 @@ const opts = {
       hardenedRuntime: true,
       gatekeeperAssess: false,
       darkModeSupport: true,
-      // entitlements: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
-      // entitlementsInherit: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
+      entitlements: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
+      entitlementsInherit: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
       entitlementsLoginHelper: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.login-helper.plist'),
     },
     mas: {
