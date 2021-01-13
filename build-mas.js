@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 
 const { Arch, Platform } = builder;
 
-const BUILD_RESOURCES_DIR_NAME = 'build-resources-singlebox';
+const BUILD_RESOURCES_DIR_NAME = 'build-resources-mas';
 
 console.log(`Machine: ${process.platform}`);
 
@@ -15,14 +15,13 @@ switch (process.platform) {
     targets = Platform.MAC.createTarget(['mas'], Arch.universal);
     break;
   }
-  default:
-  case 'linux': {
+  default: {
     console.log('Platform is not supported');
     process.exit(1);
   }
 }
 
-const filesToBeReplaced = fs.readdirSync(path.join(__dirname, 'build-resources-singlebox', 'build'));
+const filesToBeReplaced = fs.readdirSync(path.join(__dirname, 'build-resources-mas', 'build'));
 
 const packageJsonPath = path.join(__dirname, 'package.json');
 const packageJsonContent = fs.readJSONSync(packageJsonPath);
@@ -32,7 +31,7 @@ fs.writeJSONSync(packageJsonPath, packageJsonContent, { spaces: '  ' });
 const opts = {
   targets,
   config: {
-    appId: 'com.singlebox.app',
+    appId: 'com.webcatalog.singlebox',
     productName: 'Singlebox',
     asar: true,
     files: [
@@ -73,32 +72,32 @@ const opts = {
     directories: {
       buildResources: BUILD_RESOURCES_DIR_NAME,
     },
-    mac: {
-      category: 'public.app-category.productivity',
-      hardenedRuntime: true,
-      gatekeeperAssess: false,
-      darkModeSupport: true,
-      // entitlements: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
-      // entitlementsInherit: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
-      entitlementsLoginHelper: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.login-helper.plist'),
-    },
     mas: {
       category: 'public.app-category.productivity',
-      provisioningProfile: 'build-resources/embedded.provisionprofile',
+      entitlements: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
+      entitlementsInherit: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
+      entitlementsLoginHelper: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.login-helper.plist'),
+      provisioningProfile: path.join(BUILD_RESOURCES_DIR_NAME, 'embedded.provisionprofile'),
+      // https://github.com/electron/electron/issues/15958#issuecomment-447685065
+      // alternative solution for app.requestSingleInstanceLock in signed mas builds (Mac App Store)
+      extendInfo: {
+        LSMultipleInstancesProhibited: true,
+      },
     },
     afterPack: (context) => {
       console.log('Running afterPack hook....');
       const buildResourcesPath = path.join(__dirname, BUILD_RESOURCES_DIR_NAME);
-      const resourcesDirPath = context.electronPlatformName === 'darwin'
-        ? path.join(context.appOutDir, 'Singlebox.app', 'Contents', 'Resources')
-        : path.join(context.appOutDir, 'resources');
+      const resourcesDirPath = path.join(context.appOutDir, 'Singlebox.app', 'Contents', 'Resources');
       const asarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked');
       return Promise.resolve()
         .then(() => {
-          const p = filesToBeReplaced.map((fileName) => fs.copyFile(
-            path.join(buildResourcesPath, 'build', fileName),
-            path.join(asarUnpackedDirPath, 'build', fileName),
-          ));
+          const p = [];
+          filesToBeReplaced.forEach((fileName) => {
+            p.push(fs.copyFile(
+              path.join(buildResourcesPath, 'build', fileName),
+              path.join(asarUnpackedDirPath, 'build', fileName),
+            ));
+          });
           return Promise.all(p);
         })
         .then(() => {
