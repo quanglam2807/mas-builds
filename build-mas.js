@@ -31,7 +31,7 @@ fs.writeJSONSync(packageJsonPath, packageJsonContent, { spaces: '  ' });
 const opts = {
   targets,
   config: {
-    appId: 'com.singlebox.app',
+    appId: 'com.webcatalog.singlebox',
     productName: 'Singlebox',
     asar: true,
     files: [
