@@ -84,6 +84,11 @@ const opts = {
         LSMultipleInstancesProhibited: true,
       },
     },
+    publish: {
+      provider: 'github',
+      repo: 'singlebox-mas',
+      owner: 'webcatalog',
+    },
     afterPack: (context) => {
       console.log('Running afterPack hook....');
       const buildResourcesPath = path.join(__dirname, BUILD_RESOURCES_DIR_NAME);
