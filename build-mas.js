@@ -1,18 +1,22 @@
+/* eslint-disable header/header */
 /* eslint-disable no-console */
+/* eslint-disable import/no-extraneous-dependencies */
 const builder = require('electron-builder');
 const path = require('path');
 const fs = require('fs-extra');
 
+const packageJson = require('./package.json');
+
 const { Arch, Platform } = builder;
 
-const BUILD_RESOURCES_DIR_NAME = 'build-resources-mas';
-
 console.log(`Machine: ${process.platform}`);
+
+const appVersion = packageJson.version;
 
 let targets;
 switch (process.platform) {
   case 'darwin': {
-    targets = Platform.MAC.createTarget(['mas'], Arch.universal);
+    targets = Platform.MAC.createTarget([process.env.FORCE_DEV ? 'mas-dev' : 'mas'], Arch.universal);
     break;
   }
   default: {
@@ -31,30 +35,24 @@ fs.writeJSONSync(packageJsonPath, packageJsonContent, { spaces: '  ' });
 const opts = {
   targets,
   config: {
+    asarUnpack: filesToBeReplaced
+      .map((fileName) => path.join('build', fileName))
+      .concat([
+        'node_modules/node-mac-permissions/build',
+        'node_modules/keytar/build',
+      ]),
     appId: 'com.webcatalog.singlebox',
+    // https://github.com/electron-userland/electron-builder/issues/3730
+    buildVersion: process.platform === 'darwin' ? appVersion : undefined,
     productName: 'Singlebox',
-    asar: true,
     files: [
       '!docs/**/*',
-      '!template/**/*',
-      '!patches/**/*',
-      '!template*.zip',
-      '!template*.json',
-      // heavy demo files
-      '!node_modules/image-q/demo/**/*',
-      // other files
-      '!**/*/*.ts',
-      '!node_modules/*/*.map',
-      '!**/*/.DS_Store',
+      '!popclip/**/*',
+      '!test/**/*',
     ],
-    asarUnpack: filesToBeReplaced.map((fileName) => path.join('build', fileName)),
-    publish: [
-      {
-        provider: 'github',
-        owner: 'webcatalog',
-        repo: 'singlebox',
-      },
-    ],
+    directories: {
+      buildResources: 'build-resources-mas',
+    },
     protocols: [
       {
         name: 'HTTPS Protocol',
@@ -69,29 +67,25 @@ const opts = {
         schemes: ['mailto'],
       },
     ],
-    directories: {
-      buildResources: BUILD_RESOURCES_DIR_NAME,
-    },
-    mas: {
-      category: 'public.app-category.productivity',
-      entitlements: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
-      entitlementsInherit: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.plist'),
-      entitlementsLoginHelper: path.join(BUILD_RESOURCES_DIR_NAME, 'entitlements.mas.login-helper.plist'),
-      provisioningProfile: path.join(BUILD_RESOURCES_DIR_NAME, 'embedded.provisionprofile'),
+    mac: {
+      darkModeSupport: true,
       // https://github.com/electron/electron/issues/15958#issuecomment-447685065
       // alternative solution for app.requestSingleInstanceLock in signed mas builds (Mac App Store)
       extendInfo: {
         LSMultipleInstancesProhibited: true,
       },
+      entitlementsLoginHelper: 'build-resources-mas/entitlements.mas.login-helper.plist',
     },
-    publish: {
-      provider: 'github',
-      repo: 'singlebox-mas',
-      owner: 'webcatalog',
+    mas: {
+      category: 'public.app-category.productivity',
+      provisioningProfile: process.env.FORCE_DEV
+        ? 'build-resources-mas/embedded-development.provisionprofile' // mas-dev
+        : 'build-resources-mas/embedded.provisionprofile',
+      darkModeSupport: true,
     },
     afterPack: (context) => {
       console.log('Running afterPack hook....');
-      const buildResourcesPath = path.join(__dirname, BUILD_RESOURCES_DIR_NAME);
+      const buildResourcesPath = path.join(__dirname, 'build-resources-mas');
       const resourcesDirPath = path.join(context.appOutDir, 'Singlebox.app', 'Contents', 'Resources');
       const asarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked');
       return Promise.resolve()
@@ -109,6 +103,11 @@ const opts = {
           console.log('Configured Singlebox successfully.');
         });
     },
+    publish: [{
+      provider: 'github',
+      repo: 'singlebox-mas',
+      owner: 'webcatalog',
+    }],
   },
 };
 
