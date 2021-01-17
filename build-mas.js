@@ -73,6 +73,9 @@ const opts = {
       // alternative solution for app.requestSingleInstanceLock in signed mas builds (Mac App Store)
       extendInfo: {
         LSMultipleInstancesProhibited: true,
+        NSCameraUsageDescription: 'Websites you are running request to access your camera. Singlebox itself does not utilize your camera by any means.',
+        // NSLocationUsageDescription: 'A website you are running requests to access your location. Singlebox itself does not collect or utilize your location data by any means.',
+        NSMicrophoneUsageDescription: 'Websites you are running request to access your microphone. Singlebox itself does not utilize your microphone by any means.',
       },
       entitlementsLoginHelper: 'build-resources-mas/entitlements.mas.login-helper.plist',
     },
