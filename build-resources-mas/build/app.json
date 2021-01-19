@@ -2,5 +2,7 @@
     "id": "singlebox",
     "name": "Singlebox",
     "registered": true,
-    "legacyUserData": true
+    "opts": {
+        "legacyUserData": true
+    }
 }
