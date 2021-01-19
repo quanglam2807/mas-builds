@@ -4,6 +4,8 @@
 const builder = require('electron-builder');
 const path = require('path');
 const fs = require('fs-extra');
+const glob = require('glob');
+const del = require('del');
 
 const packageJson = require('./package.json');
 
@@ -74,7 +76,9 @@ const opts = {
       extendInfo: {
         LSMultipleInstancesProhibited: true,
         NSCameraUsageDescription: 'Websites you are running request to access your camera. Singlebox itself does not utilize your camera by any means.',
-        // NSLocationUsageDescription: 'A website you are running requests to access your location. Singlebox itself does not collect or utilize your location data by any means.',
+        // NSLocationUsageDescription: 'A website you are
+        // running requests to access your location. Singlebox
+        // itself does not collect or utilize your location data by any means.',
         NSMicrophoneUsageDescription: 'Websites you are running request to access your microphone. Singlebox itself does not utilize your microphone by any means.',
       },
       entitlementsLoginHelper: 'build-resources-mas/entitlements.mas.login-helper.plist',
@@ -102,13 +106,33 @@ const opts = {
           });
           return Promise.all(p);
         })
+        .then(() => new Promise((resolve, reject) => {
+          // deleted unused lproj files
+          // so support languages are displayed correctly on Mac App Store
+          const languages = ['en'];
+
+          if (process.platform === 'darwin') {
+            glob(path.join(resourcesDirPath, `!(${languages.join('|').replace(/-/g, '_')}).lproj`), (err, files) => {
+              console.log('Deleting redundant *.lproj files...');
+              if (err) return reject(err);
+              return del(files).then(() => {
+                files.forEach((file) => {
+                  console.log('Deleted', path.basename(file));
+                });
+                resolve();
+              }, reject);
+            });
+          } else {
+            resolve();
+          }
+        }))
         .then(() => {
           console.log('Configured Singlebox successfully.');
         });
     },
     publish: [{
       provider: 'github',
-      repo: 'singlebox-mas',
+      repo: 'singlebox-standalone',
       owner: 'webcatalog',
     }],
   },
