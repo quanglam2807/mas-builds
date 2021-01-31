@@ -1,4 +1,4 @@
-name: macOS
+name: Singlebox
 
 on:
   push:
@@ -43,7 +43,8 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
     - name: Build Singlebox
       run: |
-        cp -r build-resources-mas webcatalog-engine
+        cp apps/singlebox/config.json webcatalog-engine/
+        cp -r apps/singlebox/build-resources-mas webcatalog-engine
         cp build-mas.js webcatalog-engine
         cd webcatalog-engine
         yarn --prefer-offline --network-timeout 600000
