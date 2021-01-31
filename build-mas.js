@@ -8,6 +8,7 @@ const glob = require('glob');
 const del = require('del');
 
 const packageJson = require('./package.json');
+const configJson = require('./config.json');
 
 const { Arch, Platform } = builder;
 
@@ -31,8 +32,26 @@ const filesToBeReplaced = fs.readdirSync(path.join(__dirname, 'build-resources-m
 
 const packageJsonPath = path.join(__dirname, 'package.json');
 const packageJsonContent = fs.readJSONSync(packageJsonPath);
-packageJsonContent.name = 'Singlebox';
+packageJsonContent.name = configJson.productName;
 fs.writeJSONSync(packageJsonPath, packageJsonContent, { spaces: '  ' });
+
+const protocols = [];
+if (configJson.setAsDefaultBrowser) {
+  protocols.push({
+    name: 'HTTPS Protocol',
+    schemes: ['https'],
+  });
+  protocols.push({
+    name: 'HTTP Protocol',
+    schemes: ['http'],
+  });
+}
+if (configJson.setAsDefaultEmailClient) {
+  protocols.push({
+    name: 'Mailto Protocol',
+    schemes: ['mailto'],
+  });
+}
 
 const opts = {
   targets,
@@ -43,10 +62,10 @@ const opts = {
         'node_modules/node-mac-permissions/build',
         'node_modules/keytar/build',
       ]),
-    appId: 'com.webcatalog.singlebox',
+    appId: configJson.productId,
     // https://github.com/electron-userland/electron-builder/issues/3730
     buildVersion: process.platform === 'darwin' ? appVersion : undefined,
-    productName: 'Singlebox',
+    productName: configJson.productName,
     files: [
       '!docs/**/*',
       '!popclip/**/*',
@@ -55,31 +74,16 @@ const opts = {
     directories: {
       buildResources: 'build-resources-mas',
     },
-    protocols: [
-      {
-        name: 'HTTPS Protocol',
-        schemes: ['https'],
-      },
-      {
-        name: 'HTTP Protocol',
-        schemes: ['http'],
-      },
-      {
-        name: 'Mailto Protocol',
-        schemes: ['mailto'],
-      },
-    ],
+    protocols,
     mac: {
       darkModeSupport: true,
       // https://github.com/electron/electron/issues/15958#issuecomment-447685065
       // alternative solution for app.requestSingleInstanceLock in signed mas builds (Mac App Store)
       extendInfo: {
         LSMultipleInstancesProhibited: true,
-        NSCameraUsageDescription: 'Websites you are running request to access your camera. Singlebox itself does not utilize your camera by any means.',
         // NSLocationUsageDescription: 'A website you are
         // running requests to access your location. Singlebox
         // itself does not collect or utilize your location data by any means.',
-        NSMicrophoneUsageDescription: 'Websites you are running request to access your microphone. Singlebox itself does not utilize your microphone by any means.',
       },
       entitlementsLoginHelper: 'build-resources-mas/entitlements.mas.login-helper.plist',
     },
@@ -127,16 +131,24 @@ const opts = {
           }
         }))
         .then(() => {
-          console.log('Configured Singlebox successfully.');
+          console.log(`Configured ${configJson.productName} successfully.`);
         });
     },
     publish: [{
       provider: 'github',
-      repo: 'singlebox-standalone',
+      repo: 'mas-builds',
       owner: 'webcatalog',
     }],
   },
 };
+
+if (configJson.allowCamera) {
+  opts.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`;
+}
+
+if (configJson.allowMicrophone) {
+  opts.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`;
+}
 
 builder.build(opts)
   .then(() => {
