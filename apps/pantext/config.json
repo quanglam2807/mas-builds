@@ -1,0 +1,6 @@
+{
+  "allowCamera": false,
+  "allowMicrophone": false,
+  "setAsDefaultBrowser": false,
+  "setAsDefaultEmailClient": true
+}
