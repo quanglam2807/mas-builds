@@ -1,0 +1,8 @@
+{
+    "id": "pantext",
+    "name": "Pantext",
+    "registered": false,
+    "opts": {
+        "legacyUserData": true
+    }
+}
