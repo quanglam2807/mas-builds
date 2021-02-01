@@ -1,0 +1,8 @@
+{
+    "id": "panmail",
+    "name": "Panmail",
+    "registered": false,
+    "opts": {
+        "legacyUserData": true
+    }
+}
