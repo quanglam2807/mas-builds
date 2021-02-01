@@ -97,7 +97,7 @@ const opts = {
     afterPack: (context) => {
       console.log('Running afterPack hook....');
       const buildResourcesPath = path.join(__dirname, 'build-resources-mas');
-      const resourcesDirPath = path.join(context.appOutDir, 'Singlebox.app', 'Contents', 'Resources');
+      const resourcesDirPath = path.join(context.appOutDir, `${configJson.productName}.app`, 'Contents', 'Resources');
       const asarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked');
       return Promise.resolve()
         .then(() => {
