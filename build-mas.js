@@ -143,11 +143,11 @@ const opts = {
 };
 
 if (configJson.allowCamera) {
-  opts.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`;
+  opts.config.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`;
 }
 
 if (configJson.allowMicrophone) {
-  opts.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`;
+  opts.config.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`;
 }
 
 builder.build(opts)
