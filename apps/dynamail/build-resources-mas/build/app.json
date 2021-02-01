@@ -1,0 +1,9 @@
+{
+    "id": "dynamail",
+    "name": "Dynamail",
+    "url": "https://mail.google.com",
+    "registered": false,
+    "opts": {
+        "legacyUserData": true
+    }
+}
