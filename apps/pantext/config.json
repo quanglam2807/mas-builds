@@ -1,6 +1,8 @@
 {
+  "productName": "Pantext",
+  "productId": "com.webcatalog.pantext",
   "allowCamera": false,
   "allowMicrophone": false,
-  "setAsDefaultBrowser": false,
+  "setAsDefaultBrowser": true,
   "setAsDefaultEmailClient": true
 }
