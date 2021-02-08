@@ -1,0 +1,10 @@
+{
+    "id": "dynacal",
+    "name": "DynaCal",
+    "url": "https://calendar.google.com",
+    "macAppStoreId": "1552616851",
+    "registered": false,
+    "opts": {
+        "legacyUserData": true
+    }
+}
