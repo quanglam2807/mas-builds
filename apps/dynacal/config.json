@@ -3,6 +3,6 @@
   "productId": "com.webcatalog.dynacal",
   "allowCamera": true,
   "allowMicrophone": true,
-  "setAsDefaultBrowser": false,
+  "setAsDefaultBrowser": true,
   "setAsDefaultEmailClient": true
 }
