@@ -1,12 +1,9 @@
-name: Dynamail
+name: DynaMail
 
 on:
   push:
     tags:
       - "v*.*.*"
-  pull_request:
-    branches:
-      - master
 
 jobs:
   build:
@@ -41,7 +38,7 @@ jobs:
     - name: Get tag name
       run: echo CI_BUILD_TAG=${GITHUB_REF/refs\/tags\//} >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/tags/')
-    - name: Build Dynamail
+    - name: Build DynaMail
       run: |
         cp apps/dynamail/config.json webcatalog-engine/
         cp -r apps/dynamail/build-resources-mas webcatalog-engine
