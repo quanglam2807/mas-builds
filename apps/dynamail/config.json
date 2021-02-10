@@ -1,8 +1,8 @@
 {
   "productName": "DynaMail",
   "productId": "com.webcatalog.dynamail",
-  "allowCamera": true,
-  "allowMicrophone": true,
+  "allowCamera": false,
+  "allowMicrophone": false,
   "setAsDefaultBrowser": false,
   "setAsDefaultEmailClient": true
 }
