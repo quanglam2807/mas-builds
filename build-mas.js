@@ -28,8 +28,6 @@ switch (process.platform) {
   }
 }
 
-const filesToBeReplaced = fs.readdirSync(path.join(__dirname, 'build-resources-mas', 'build'));
-
 const packageJsonPath = path.join(__dirname, 'package.json');
 const packageJsonContent = fs.readJSONSync(packageJsonPath);
 packageJsonContent.name = configJson.productName;
@@ -56,12 +54,10 @@ if (configJson.setAsDefaultEmailClient) {
 const opts = {
   targets,
   config: {
-    asarUnpack: filesToBeReplaced
-      .map((fileName) => path.join('build', fileName))
-      .concat([
-        'node_modules/node-mac-permissions/build',
-        'node_modules/keytar/build',
-      ]),
+    asarUnpack: [
+      'node_modules/node-mac-permissions/build',
+      'node_modules/keytar/build',
+    ],
     appId: configJson.productId,
     // https://github.com/electron-userland/electron-builder/issues/3730
     buildVersion: process.platform === 'darwin' ? appVersion : undefined,
@@ -94,20 +90,8 @@ const opts = {
     },
     afterPack: (context) => {
       console.log('Running afterPack hook....');
-      const buildResourcesPath = path.join(__dirname, 'build-resources-mas');
       const resourcesDirPath = path.join(context.appOutDir, `${configJson.productName}.app`, 'Contents', 'Resources');
-      const asarUnpackedDirPath = path.join(resourcesDirPath, 'app.asar.unpacked');
       return Promise.resolve()
-        .then(() => {
-          const p = [];
-          filesToBeReplaced.forEach((fileName) => {
-            p.push(fs.copyFile(
-              path.join(buildResourcesPath, 'build', fileName),
-              path.join(asarUnpackedDirPath, 'build', fileName),
-            ));
-          });
-          return Promise.all(p);
-        })
         .then(() => new Promise((resolve, reject) => {
           // deleted unused lproj files
           // so support languages are displayed correctly on Mac App Store
@@ -148,7 +132,18 @@ if (configJson.allowMicrophone) {
   opts.config.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`;
 }
 
-builder.build(opts)
+Promise.resolve()
+  .then(() => {
+    const buildResourcesPath = path.join(__dirname, 'build-resources-mas');
+    const filesToBeReplaced = fs.readdirSync(path.join(buildResourcesPath, 'build'));
+
+    const p = filesToBeReplaced.map((fileName) => fs.copyFile(
+      path.join(buildResourcesPath, 'build', fileName),
+      path.join(__dirname, 'build', fileName),
+    ));
+    return Promise.all(p);
+  })
+  .then(() => builder.build(opts))
   .then(() => {
     console.log('build successful');
   })
