@@ -135,7 +135,7 @@ if (configJson.allowMicrophone) {
 Promise.resolve()
   .then(() => {
     const buildResourcesPath = path.join(__dirname, 'build-resources-mas');
-    const filesToBeReplaced = fs.readdirSync(buildResourcesPath, 'build');
+    const filesToBeReplaced = fs.readdirSync(path.join(buildResourcesPath, 'build'));
 
     const p = filesToBeReplaced.map((fileName) => fs.copyFile(
       path.join(buildResourcesPath, 'build', fileName),
