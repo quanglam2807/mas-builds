@@ -3,7 +3,7 @@
     "name": "DynaCal",
     "url": "https://calendar.google.com",
     "macAppStoreId": "1552616851",
-    "registered": false,
+    "registered": true,
     "opts": {
         "legacyUserData": true
     }
