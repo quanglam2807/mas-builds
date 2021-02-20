@@ -3,7 +3,7 @@
     "name": "DynaMail",
     "url": "https://mail.google.com",
     "macAppStoreId": "1550739756",
-    "registered": false,
+    "registered": true,
     "opts": {
         "legacyUserData": true
     }
