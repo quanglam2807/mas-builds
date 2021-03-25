@@ -1,11 +1,10 @@
+/* eslint-disable max-len */
 /* eslint-disable header/header */
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 const builder = require('electron-builder');
 const path = require('path');
 const fs = require('fs-extra');
-const glob = require('glob');
-const del = require('del');
 
 const packageJson = require('./package.json');
 const configJson = require('./config.json');
@@ -88,34 +87,37 @@ const opts = {
         : 'build-resources-mas/embedded.provisionprofile',
       darkModeSupport: true,
     },
-    afterPack: (context) => {
-      console.log('Running afterPack hook....');
-      const resourcesDirPath = path.join(context.appOutDir, `${configJson.productName}.app`, 'Contents', 'Resources');
-      return Promise.resolve()
-        .then(() => new Promise((resolve, reject) => {
-          // deleted unused lproj files
-          // so support languages are displayed correctly on Mac App Store
-          const languages = ['en'];
+    // we can't remove unused *.lproj dir because
+    // it would cause navigator.language & navigator.languages to always return 'en-US'
+    // https://github.com/electron/electron/issues/2484
+    // afterPack: (context) => {
+    //   console.log('Running afterPack hook....');
+    //   const resourcesDirPath = path.join(context.appOutDir, `${configJson.productName}.app`, 'Contents', 'Resources');
+    //   return Promise.resolve()
+    //     .then(() => new Promise((resolve, reject) => {
+    //       // deleted unused lproj files
+    //       // so support languages are displayed correctly on Mac App Store
+    //       const languages = ['en'];
 
-          if (process.platform === 'darwin') {
-            glob(path.join(resourcesDirPath, `!(${languages.join('|').replace(/-/g, '_')}).lproj`), (err, files) => {
-              console.log('Deleting redundant *.lproj files...');
-              if (err) return reject(err);
-              return del(files).then(() => {
-                files.forEach((file) => {
-                  console.log('Deleted', path.basename(file));
-                });
-                resolve();
-              }, reject);
-            });
-          } else {
-            resolve();
-          }
-        }))
-        .then(() => {
-          console.log(`Configured ${configJson.productName} successfully.`);
-        });
-    },
+    //       if (process.platform === 'darwin') {
+    //         glob(path.join(resourcesDirPath, `!(${languages.join('|').replace(/-/g, '_')}).lproj`), (err, files) => {
+    //           console.log('Deleting redundant *.lproj files...');
+    //           if (err) return reject(err);
+    //           return del(files).then(() => {
+    //             files.forEach((file) => {
+    //               console.log('Deleted', path.basename(file));
+    //             });
+    //             resolve();
+    //           }, reject);
+    //         });
+    //       } else {
+    //         resolve();
+    //       }
+    //     }))
+    //     .then(() => {
+    //       console.log(`Configured ${configJson.productName} successfully.`);
+    //     });
+    // },
     publish: [{
       provider: 'github',
       repo: 'mas-builds',
