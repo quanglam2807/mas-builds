@@ -1,0 +1,8 @@
+{
+  "productName": "Tulipa",
+  "productId": "com.webcatalog.tulipa",
+  "allowCamera": true,
+  "allowMicrophone": true,
+  "setAsDefaultBrowser": true,
+  "setAsDefaultEmailClient": true
+}
