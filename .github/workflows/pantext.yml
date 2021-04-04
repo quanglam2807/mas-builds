@@ -12,13 +12,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Get WebCatalog Engine version
-      run: echo WEBCATALOG_ENGINE_VERSION=$(cat webcatalog-engine-version $1) >> $GITHUB_ENV
+    - name: Get Neutron version
+      run: echo NEUTRON_VERSION=$(cat neutron-version $1) >> $GITHUB_ENV
     - uses: actions/checkout@v2
       with:
-        repository: 'webcatalog/webcatalog-engine'
-        ref: v${{ env.WEBCATALOG_ENGINE_VERSION }}
-        path: 'webcatalog-engine'
+        repository: 'webcatalog/neutron'
+        ref: v${{ env.NEUTRON_VERSION }}
+        path: 'neutron'
         fetch-depth: 1
         submodules: false
     - name: Set up Node.js
@@ -30,10 +30,10 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
     - name: Build PanText
       run: |
-        cp apps/pantext/config.json webcatalog-engine/
-        cp -r apps/pantext/build-resources-mas webcatalog-engine
-        cp build-mas.js webcatalog-engine
-        cd webcatalog-engine
+        cp apps/pantext/config.json neutron/
+        cp -r apps/pantext/build-resources-mas neutron
+        cp build-mas.js neutron
+        cd neutron
         yarn --prefer-offline --network-timeout 600000
         yarn lint
         yarn build
