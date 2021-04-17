@@ -1,8 +1,0 @@
-{
-  "productName": "DynaCal",
-  "productId": "com.webcatalog.dynacal",
-  "allowCamera": false,
-  "allowMicrophone": false,
-  "setAsDefaultBrowser": false,
-  "setAsDefaultEmailClient": false
-}
