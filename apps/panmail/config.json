@@ -4,5 +4,6 @@
   "allowCamera": false,
   "allowMicrophone": false,
   "setAsDefaultBrowser": false,
-  "setAsDefaultEmailClient": true
+  "setAsDefaultEmailClient": true,
+  "setAsDefaultCalendarApp": false
 }

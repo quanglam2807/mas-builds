@@ -49,6 +49,12 @@ if (configJson.setAsDefaultEmailClient) {
     schemes: ['mailto'],
   });
 }
+if (configJson.setAsDefaultCalendarApp) {
+  protocols.push({
+    name: 'Webcal Protocol',
+    schemes: ['webcal'],
+  });
+}
 
 const opts = {
   targets,
