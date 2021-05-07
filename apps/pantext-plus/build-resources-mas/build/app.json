@@ -1,6 +1,7 @@
 {
-    "id": "singlebox",
+    "id": "pantext-plus",
     "name": "PanText Plus",
+    "hostname": "pantext.app",
     "macAppStoreId": "1548853763",
     "registered": true,
     "opts": {
