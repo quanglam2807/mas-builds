@@ -30,7 +30,7 @@ switch (process.platform) {
 const packageJsonPath = path.join(__dirname, 'package.json');
 const packageJsonContent = fs.readJSONSync(packageJsonPath);
 packageJsonContent.name = configJson.productId === 'com.webcatalog.singlebox'
-  ? 'PanText' : configJson.productName;
+  ? 'Singlebox' : configJson.productName;
 fs.writeJSONSync(packageJsonPath, packageJsonContent, { spaces: '  ' });
 
 const protocols = [];
