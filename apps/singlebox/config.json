@@ -1,6 +1,6 @@
 {
-  "productName": "PanText Plus",
-  "productId": "com.webcatalog.singlebox",
+  "productName": "Singlebox",
+  "productId": "com.webcatalog.pantext",
   "allowCamera": true,
   "allowMicrophone": true,
   "setAsDefaultBrowser": true,
