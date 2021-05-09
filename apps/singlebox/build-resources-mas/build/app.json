@@ -4,6 +4,7 @@
     "hostname": "singlebox.app",
     "registered": false,
     "macAppStoreId": "1551183766",
+    "iapProductIdentifier": "pantext_plus",
     "opts": {
         "legacyUserData": true
     }

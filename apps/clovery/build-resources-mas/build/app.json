@@ -4,6 +4,7 @@
     "hostname": "clovery.app",
     "macAppStoreId": "1552618413",
     "registered": false,
+    "iapProductIdentifier": "clovery_plus",
     "opts": {
         "legacyUserData": true
     }
