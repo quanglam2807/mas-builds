@@ -31,6 +31,7 @@ const packageJsonPath = path.join(__dirname, 'package.json');
 const packageJsonContent = fs.readJSONSync(packageJsonPath);
 packageJsonContent.name = configJson.productId === 'com.webcatalog.singlebox'
   ? 'Singlebox' : configJson.productName;
+packageJsonContent.description = configJson.productDescription;
 fs.writeJSONSync(packageJsonPath, packageJsonContent, { spaces: '  ' });
 
 const protocols = [];
