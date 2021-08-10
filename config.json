@@ -2,8 +2,6 @@
   "productName": "Singlebox Plus",
   "productDescription": "All-in-One Messenger",
   "productId": "com.webcatalog.singlebox",
-  "allowCamera": true,
-  "allowMicrophone": true,
   "setAsDefaultBrowser": true,
   "setAsDefaultEmailClient": true,
   "setAsDefaultCalendarApp": true
