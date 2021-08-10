@@ -84,7 +84,9 @@ const opts = {
       // alternative solution for app.requestSingleInstanceLock in signed mas builds (Mac App Store)
       extendInfo: {
         LSMultipleInstancesProhibited: true,
-        // NSLocationUsageDescription: '',
+        NSLocationUsageDescription: `The websites you are running request to access your location. ${configJson.productName} itself does not utilize your location data by any means.`,
+        NSCameraUsageDescription: `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`,
+        NSCameraUsageDescription: `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`,
       },
       entitlementsLoginHelper: 'build-resources-mas/entitlements.mas.login-helper.plist',
     },
@@ -133,14 +135,6 @@ const opts = {
     }],
   },
 };
-
-if (configJson.allowCamera) {
-  opts.config.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`;
-}
-
-if (configJson.allowMicrophone) {
-  opts.config.mac.extendInfo.NSCameraUsageDescription = `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`;
-}
 
 Promise.resolve()
   .then(() => {
