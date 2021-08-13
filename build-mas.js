@@ -34,29 +34,24 @@ packageJsonContent.name = configJson.productId === 'com.webcatalog.singlebox'
 packageJsonContent.description = configJson.productDescription;
 fs.writeJSONSync(packageJsonPath, packageJsonContent, { spaces: '  ' });
 
-const protocols = [];
-if (configJson.setAsDefaultBrowser) {
-  protocols.push({
+const protocols = [
+  {
     name: 'HTTPS Protocol',
     schemes: ['https'],
-  });
-  protocols.push({
+  },
+  {
     name: 'HTTP Protocol',
     schemes: ['http'],
-  });
-}
-if (configJson.setAsDefaultEmailClient) {
-  protocols.push({
+  },
+  {
     name: 'Mailto Protocol',
     schemes: ['mailto'],
-  });
-}
-if (configJson.setAsDefaultCalendarApp) {
-  protocols.push({
+  },
+  {
     name: 'Webcal Protocol',
     schemes: ['webcal'],
-  });
-}
+  },
+];
 
 const opts = {
   targets,
@@ -84,9 +79,9 @@ const opts = {
       // alternative solution for app.requestSingleInstanceLock in signed mas builds (Mac App Store)
       extendInfo: {
         LSMultipleInstancesProhibited: true,
-        NSLocationUsageDescription: `The websites you are running request to access your location. ${configJson.productName} itself does not utilize your location data by any means.`,
-        NSCameraUsageDescription: `The websites you are running request to access your camera. ${configJson.productName} itself does not utilize your camera by any means.`,
-        NSCameraUsageDescription: `The websites you are running request to access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`,
+        NSLocationUsageDescription: `The websites you are running may access your location. ${configJson.productName} itself does not utilize your location data by any means.`,
+        NSCameraUsageDescription: `The websites you are running may access your camera. ${configJson.productName} itself does not utilize your camera by any means.`,
+        NSMicrophoneUsageDescription: `The websites you are running may access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`,
       },
       entitlementsLoginHelper: 'build-resources-mas/entitlements.mas.login-helper.plist',
     },
