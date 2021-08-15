@@ -79,7 +79,6 @@ const opts = {
       // alternative solution for app.requestSingleInstanceLock in signed mas builds (Mac App Store)
       extendInfo: {
         LSMultipleInstancesProhibited: true,
-        NSLocationUsageDescription: `The websites you are running may access your location. ${configJson.productName} itself does not utilize your location data by any means.`,
         NSCameraUsageDescription: `The websites you are running may access your camera. ${configJson.productName} itself does not utilize your camera by any means.`,
         NSMicrophoneUsageDescription: `The websites you are running may access your microphone. ${configJson.productName} itself does not utilize your microphone by any means.`,
       },
