@@ -3,6 +3,7 @@
     "name": "Singlebox Plus",
     "hostname": "singlebox.app",
     "macAppStoreId": "1548853763",
+    "changelogUrl": "https://webcatalog.io/singlebox/changelog/",
     "registered": true,
     "opts": {
         "legacyUserData": true

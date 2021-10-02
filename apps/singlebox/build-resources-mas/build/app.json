@@ -2,8 +2,9 @@
     "id": "singlebox",
     "name": "Singlebox",
     "hostname": "singlebox.app",
-    "registered": false,
     "macAppStoreId": "1551183766",
+    "changelogUrl": "https://webcatalog.io/singlebox/changelog/",
+    "registered": false,
     "iapProductIdentifier": "pantext_plus",
     "opts": {
         "legacyUserData": true
